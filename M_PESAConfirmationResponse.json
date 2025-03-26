@@ -1,28 +1,118 @@
-{    
-   "Body": {        
-      "stkCallback": {            
-         "MerchantRequestID": "29115-34620561-1",            
-         "CheckoutRequestID": "ws_CO_191220191020363925",            
-         "ResultCode": 0,            
-         "ResultDesc": "The service request is processed successfully.",            
-         "CallbackMetadata": {                
-            "Item": [{                        
-               "Name": "Amount",                        
-               "Value": 1.00                    
-            },                    
-            {                        
-               "Name": "MpesaReceiptNumber",                        
-               "Value": "NLJ7RT61SV"                    
-            },                    
-            {                        
-               "Name": "TransactionDate",                        
-               "Value": 20191219102115                    
-            },                    
-            {                        
-               "Name": "PhoneNumber",                        
-               "Value": 254708374149                    
-            }]            
-         }        
-      }    
-   }
+{
+    "Body": {
+        "stkCallback": [
+            {
+                "MerchantRequestID": "8131-4f68-ab7a-5e68879d780e94531",
+                "CheckoutRequestID": "ws_CO_27032025011714773745801435",
+                "ResultCode": 1032,
+                "ResultDesc": "Request cancelled by user"
+            },
+            {
+                "MerchantRequestID": "6543-425e-a177-2e84b1462ecd2474146",
+                "CheckoutRequestID": "ws_CO_27032025011941682745801435",
+                "ResultCode": 0,
+                "ResultDesc": "The service request is processed successfully.",
+                "CallbackMetadata": {
+                    "Item": [
+                        {
+                            "Name": "Amount",
+                            "Value": 1
+                        },
+                        {
+                            "Name": "MpesaReceiptNumber",
+                            "Value": "TCR595BQTZ"
+                        },
+                        {
+                            "Name": "Balance"
+                        },
+                        {
+                            "Name": "TransactionDate",
+                            "Value": 20250327011818
+                        },
+                        {
+                            "Name": "PhoneNumber",
+                            "Value": 254745801435
+                        }
+                    ]
+                }
+            },
+            {
+                "MerchantRequestID": "bbcd-4a89-bd1a-6ecdc639893b3664729",
+                "CheckoutRequestID": "ws_CO_27032025012118733745801435",
+                "ResultCode": 0,
+                "ResultDesc": "The service request is processed successfully.",
+                "CallbackMetadata": {
+                    "Item": [
+                        {
+                            "Name": "Amount",
+                            "Value": 1
+                        },
+                        {
+                            "Name": "MpesaReceiptNumber",
+                            "Value": "TCR695CL2W"
+                        },
+                        {
+                            "Name": "Balance"
+                        },
+                        {
+                            "Name": "TransactionDate",
+                            "Value": 20250327011956
+                        },
+                        {
+                            "Name": "PhoneNumber",
+                            "Value": 254745801435
+                        }
+                    ]
+                }
+            },
+            {
+                "MerchantRequestID": "b54f-471d-93d9-f7f3bf3f7c0e3667373",
+                "CheckoutRequestID": "ws_CO_27032025012439866745801435",
+                "ResultCode": 1032,
+                "ResultDesc": "Request cancelled by user"
+            },
+            {
+                "MerchantRequestID": "bbcd-4a89-bd1a-6ecdc639893b3664822",
+                "CheckoutRequestID": "ws_CO_27032025012605204745801435",
+                "ResultCode": 1032,
+                "ResultDesc": "Request cancelled by user"
+            },
+            {
+                "MerchantRequestID": "8131-4f68-ab7a-5e68879d780e94676",
+                "CheckoutRequestID": "ws_CO_27032025012859608745801435",
+                "ResultCode": 1032,
+                "ResultDesc": "Request cancelled by user"
+            },
+            {
+                "MerchantRequestID": "bbcd-4a89-bd1a-6ecdc639893b3664864",
+                "CheckoutRequestID": "ws_CO_27032025012801560745801435",
+                "ResultCode": 1032,
+                "ResultDesc": "Request cancelled by user"
+            },
+            {
+                "MerchantRequestID": "6543-425e-a177-2e84b1462ecd2474457",
+                "CheckoutRequestID": "ws_CO_27032025013017010745801435",
+                "ResultCode": 1032,
+                "ResultDesc": "Request cancelled by user"
+            },
+            {
+                "MerchantRequestID": "b3ac-4f86-9167-882bec989b5115729",
+                "CheckoutRequestID": "ws_CO_27032025013054334745801435",
+                "ResultCode": 1032,
+                "ResultDesc": "Request cancelled by user"
+            },
+            {
+                "MerchantRequestID": "b3ac-4f86-9167-882bec989b5115781",
+                "CheckoutRequestID": "ws_CO_27032025013226120745801435",
+                "ResultCode": 1032,
+                "ResultDesc": "Request cancelled by user"
+            },
+            {
+                "MerchantRequestID": "6543-425e-a177-2e84b1462ecd2474529",
+                "CheckoutRequestID": "ws_CO_27032025013433565745801435",
+                "ResultCode": 1032,
+                "ResultDesc": "Request cancelled by user"
+            }
+        ]
+    }
 }

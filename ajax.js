@@ -5,17 +5,22 @@ document.getElementById('paymentForm').addEventListener('submit', async function
     let phone = document.getElementById('phone').value.trim();
     let errorElement = document.getElementById('error');
 
-    errorElement.textContent = "";
+  //  errorElement.textContent = "";
     errorElement.style.display = "block";
 
     if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+        errorElement.style.color = "red";
         errorElement.textContent = "Please enter a valid amount.";
+        hideMessageAfterDelay();
         return;
     }
 
     if (!/^(07|01)\d{8}$/.test(phone)) {
+        errorElement.style.color = "red";
         errorElement.textContent = "Please enter a valid 10-digit phone number (07XXXXXXXX or 01XXXXXXXX).";
+        hideMessageAfterDelay();
         return;
+
     }
 
     let paymentData = {
@@ -31,11 +36,13 @@ document.getElementById('paymentForm').addEventListener('submit', async function
         });
 
         let result = await response.json();
+        errorElement.style.color = "green";
         errorElement.textContent = result.success || result.error;
 
         hideMessageAfterDelay();
 
     } catch (error) {
+        errorElement.style.color = "red";
         errorElement.textContent = "Error processing payment.";
         hideMessageAfterDelay();
     }

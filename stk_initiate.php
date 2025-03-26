@@ -15,7 +15,7 @@ $consumerKey = 'rDfxbPHYjhMHqmX72AZbvigxhnIJKy3gTQFBUiDSOU6HeBUS';
 $consumerSecret = 'TbJBs8IvOxoGwUkwPdfBcrempsAvRPgYPA0LWsrpZQiKkJlHqombSMdnyFZexdDd';
 $BusinessShortCode = '174379'; //Paybill/Till
 $Passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
-$CallBackURL = 'https://largely-discrete-flea.ngrok-free.app/callback_url.php';
+$CallBackURL = 'https://largely-discrete-flea.ngrok-free.app/mbesa/callback_url.php';
 
 // Get input data
 $data = json_decode(file_get_contents('php://input'), true);

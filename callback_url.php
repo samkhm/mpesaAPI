@@ -1,58 +1,68 @@
 <?php
 header("Content-Type: application/json");
 
-// Send response back to Safaricom immediately
-$response = json_encode([
-    "ResultCode" => 0, 
-    "ResultDesc" => "Confirmation Received Successfully"
-]);
+$response = '{
+    "ResultCode": 0, 
+    "ResultDesc": "Confirmation Received Successfully"
+}';
 
-// Receive M-PESA response
+// Get the raw JSON from M-Pesa
 $mpesaResponse = file_get_contents('php://input');
 
-// Log the response in a JSON file
+// Decode the new transaction
+$newTransaction = json_decode($mpesaResponse, true);
+
+// Log file
 $logFile = "M_PESAConfirmationResponse.json";
-file_put_contents($logFile, $mpesaResponse . PHP_EOL, FILE_APPEND);
 
-// Decode the JSON response
-$callbackContent = json_decode($mpesaResponse, true);
-
-// Check if the response contains the required fields
-if (isset($callbackContent['Body']['stkCallback'])) {
-    $stkCallback = $callbackContent['Body']['stkCallback'];
-    
-    $ResultCode = $stkCallback['ResultCode'];
-    $CheckoutRequestID = $stkCallback['CheckoutRequestID'];
-    $Amount = $stkCallback['CallbackMetadata']['Item'][0]['Value'];
-    $MpesaReceiptNumber = $stkCallback['CallbackMetadata']['Item'][1]['Value'];
-    $TransactionDate = $stkCallback['CallbackMetadata']['Item'][2]['Value'];
-    $PhoneNumber = $stkCallback['CallbackMetadata']['Item'][3]['Value'];
-
-    // Format the phone number (convert 2547XXXXXXXX to 07XXXXXXXX)
-    $formattedPhone = str_replace("254", "0", $PhoneNumber);
-
-    // Process only successful transactions (ResultCode == 0)
-    if ($ResultCode == 0) {
-        // Connect to the database
-        $conn = new mysqli("localhost", "root", "123456789", "money_db");
-
-        // Check for connection errors
-        if ($conn->connect_error) {
-            die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
-        }
-
-        // Prepare the SQL statement to insert transaction data
-        $stmt = $conn->prepare("INSERT INTO transactions (CheckoutRequestID, ResultCode, Amount, MpesaReceiptNumber, PhoneNumber, TransactionDate) 
-                                VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sissss", $CheckoutRequestID, $ResultCode, $Amount, $MpesaReceiptNumber, $formattedPhone, $TransactionDate);
-
-        // Execute the query and close the connection
-        $stmt->execute();
-        $stmt->close();
-        $conn->close();
+// Load existing transactions (or create an empty array if the file doesn't exist)
+if (file_exists($logFile)) {
+    $existingTransactions = json_decode(file_get_contents($logFile), true);
+    if (!isset($existingTransactions["Body"]["stkCallback"])) {
+        $existingTransactions["Body"]["stkCallback"] = [];
     }
+} else {
+    $existingTransactions = ["Body" => ["stkCallback" => []]];
 }
 
-// Send response to Safaricom
+// Append the new transaction to the JSON array
+$existingTransactions["Body"]["stkCallback"][] = $newTransaction["Body"]["stkCallback"];
+
+// Save the updated transactions back to the file
+file_put_contents($logFile, json_encode($existingTransactions, JSON_PRETTY_PRINT));
+
+// Extract data for database insertion
+$Resultcode = $newTransaction["Body"]["stkCallback"]["ResultCode"];
+//$CheckoutRequestID = $newTransaction["Body"]["stkCallback"]["CheckoutRequestID"];
+$Amount = $newTransaction["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Value"];
+$MpesaReceiptNumber = $newTransaction["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"];
+$Mpesadate = $newTransaction["Body"]["stkCallback"]["CallbackMetadata"]["Item"][3]["Value"];
+$PhoneNumber = $newTransaction["Body"]["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"];
+$formatedPhone = str_replace("254", "0", $PhoneNumber);
+
+// Insert into database only if payment was successful
+if ($Resultcode == 0) {
+    // Database connection
+    $conn = mysqli_connect("localhost", "root", "123456789", "money_db");
+
+    if (!$conn) {
+        die(json_encode(["error" => "Database connection failed: " . mysqli_connect_error()]));
+    }
+
+    // Insert transaction using prepared statement
+    $stmt = $conn->prepare("INSERT INTO transactions (Resultcode, Amount, MpesaReceiptNumber, PhoneNumber, TransactionDate) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("iisss", $Resultcode, $Amount, $MpesaReceiptNumber, $formatedPhone, $Mpesadate);
+
+    if ($stmt->execute()) {
+        echo json_encode(["success" => "Transaction recorded successfully!"]);
+    } else {
+        echo json_encode(["error" => $stmt->error]);
+    }
+
+    $stmt->close();
+    mysqli_close($conn);
+}
+
+// Respond to Safaricom
 echo $response;
 ?>
