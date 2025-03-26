@@ -13,14 +13,14 @@ document.getElementById('paymentForm').addEventListener('submit', async function
         return;
     }
 
-    if (!/^07\d{8}$/.test(phone)) {
-        errorElement.textContent = "Please enter a valid 10-digit phone number (07XXXXXXXX).";
+    if (!/^(07|01)\d{8}$/.test(phone)) {
+        errorElement.textContent = "Please enter a valid 10-digit phone number (07XXXXXXXX or 01XXXXXXXX).";
         return;
     }
 
     let paymentData = {
         amount: parseFloat(amount),
-        phone: `254${phone.substring(1)}`
+        phone: `254${phone.slice(-9)}`
     };
 
     try {

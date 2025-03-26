@@ -28,12 +28,12 @@ if (!isset($data['phone']) || !isset($data['amount'])) {
 // Validate and Format Phone Number
 $PartyA = preg_replace('/\D/', '', $data['phone']); // Remove non-digits
 
-if (preg_match('/^07\d{8}$/', $PartyA)) {
+if (preg_match('/^(07|01)\d{8}$/', $PartyA)) {
     $PartyA = '254' . substr($PartyA, 1);
 }
 
-if (!preg_match('/^2547\d{8}$/', $PartyA)) {
-    echo json_encode(["error" => "Invalid phone number format. Use 07XXXXXXXX."]);
+if (!preg_match('/^254(7|1)\d{8}$/', $PartyA)) {
+    echo json_encode(["error" => "Invalid phone number format. Use 07XXXXXXXX or 01XXXXXXXX."]);
     exit;
 }
 
@@ -44,7 +44,7 @@ if (!$Amount || $Amount <= 0) {
     exit;
 }
 
-$AccountReference = '9970050'; //paybill
+$AccountReference = '997005 QTS'; //paybill
 $TransactionDesc = 'This is a payment'; //any desc
 $Timestamp = date('YmdHis');
 $Password = base64_encode($BusinessShortCode . $Passkey . $Timestamp);
