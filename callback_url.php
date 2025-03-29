@@ -33,7 +33,7 @@ file_put_contents($logFile, json_encode($existingTransactions, JSON_PRETTY_PRINT
 
 // Extract data for database insertion
 $Resultcode = $newTransaction["Body"]["stkCallback"]["ResultCode"];
-//$CheckoutRequestID = $newTransaction["Body"]["stkCallback"]["CheckoutRequestID"];
+$CheckoutRequestID = $newTransaction["Body"]["stkCallback"]["CheckoutRequestID"];
 $Amount = $newTransaction["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Value"];
 $MpesaReceiptNumber = $newTransaction["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"];
 $Mpesadate = $newTransaction["Body"]["stkCallback"]["CallbackMetadata"]["Item"][3]["Value"];

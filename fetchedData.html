@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetched Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            text-align: center;
+        }
+        .message {
+            text-align: center;
+            font-size: 18px;
+            color: red;
+            display: none; /* Initially hidden */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #007BFF;
+            color: white;
+        }
+        tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        tbody tr:hover {
+            background: #f1f1f1;
+        }
+    </style>
+    <script src="ajaxtofetchdata.js"></script> <!-- External JavaScript -->
+</head>
+<body>
+
+    <h2>Users Data</h2>
+    <p class="message"></p> <!-- Error message area -->
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Amount</th>
+                <th>Receipt Number</th>
+                <th>Phone Number</th>
+                <th>Transaction Date</th>
+            </tr>
+        </thead>
+        <tbody id="tabledata">  <!-- Fixed id for tbody -->
+            <!-- Data will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+</body>
+</html>
